@@ -168,12 +168,12 @@ class AddPresetBase:
 
             filename = self.as_filename(name)
 
-            # target_path = os.path.join("presets", self.preset_subdir)
+            target_path = os.path.join("presets", self.preset_subdir)
             # SCRIPTS
             # script_file = os.path.realpath(__file__)
             # directory = os.path.dirname(script_file)
             # target_path = os.path.join(directory,self.preset_subdir)
-            target_path = os.path.join("presets",os.path.join("presets", self.preset_subdir))
+            # target_path = os.path.join("presets",os.path.join("presets", self.preset_subdir))
             target_path = bpy.utils.user_resource('SCRIPTS',
                                                   target_path,
                                                   create=True)

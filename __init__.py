@@ -22,7 +22,7 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,1),
+    "version": (0,0,2),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
@@ -33,15 +33,29 @@ bl_info = {
 
 
 
-import bpy
+import bpy, os
 from . presets import AddPresetBase
+
 # from bl_ui.space_userpref import CenterAlignMixIn
 
 class SCWPP_PREFS_MT_weight_paint_presets(bpy.types.Menu):
 
     """List of Weight Paint presets"""
     bl_label = "Weight Paint Presets"
+
+    # script_file = os.path.realpath(__file__)
+    # directory = os.path.dirname(script_file)
+    # target_path = os.path.join(directory,"presets\\")
+    # target_path = directory
+    # searchpaths= str(target_path)
+
+    # preset_subdir = str('C:/Users/romboutversluijs/AppData/Roaming/Blender Foundation/Blender/2.91/scripts/addons/Save-Custom-Weight-Paint-Presets/presets/')
+    # preset_subdir = "presets"
+    # Addon preset path
+    # prop_filepath= target_path
+
     preset_subdir = "custom_weight_paint_colors"
+
     preset_operator = "script.execute_preset"
     draw = bpy.types.Menu.draw_preset
 

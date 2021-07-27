@@ -6,11 +6,11 @@ The added presets can then be loaded directly using the preset menu. Saved prese
 
 If you want to copy them over, copy the folder '''custom-weight-paint-colors''' to the other systems. This is folder is stored under the following paths:
 
-<b>OSX: </b>```/Users/{user}/Library/Application/Support/Blender/2.81/scripts/presets/``` <br>
-<b>Windows: </b>```C:\Documents and Settings\%username%\Application Data\Blender Foundation\Blender\2.81\scripts\presets\``` <br>
-<b>Linux: </b>```~/.config/blender/2.81/scripts/presets/``` <br>
+<b>OSX: </b>```/Users/{user}/Library/Application/Support/Blender/VERSION/scripts/presets/``` <br>
+<b>Windows: </b>```C:\Documents and Settings\%username%\Application Data\Blender Foundation\Blender\VERSION\scripts\presets\``` <br>
+<b>Linux: </b>```~/.config/blender/VERSION/scripts/presets/``` <br>
 
-!['Example UI'](https://raw.githubusercontent.com/wiki/schroef/Save-Custom-Weight-Paint-Presets/images/save-weight-paint-presets-v001.jpg?v22072021)
+!['Example UI'](https://raw.githubusercontent.com/wiki/schroef/Save-Custom-Weight-Paint-Presets/images/save-weight-paint-presets-v002.jpg?v20210726)
 
 
 ### System Requirements
