@@ -22,7 +22,7 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,2),
+    "version": (0,0,3),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
@@ -121,6 +121,21 @@ def install_presets():
     # Destination of moved directory
 
 
+def tool_weight_paint_presets(self, context):
+    layout = self.layout
+    tool_mode = context.mode
+    layout.use_property_split = True
+    layout.use_property_decorate = False
+
+    tool_settings = context.tool_settings
+    wpaint = tool_settings.weight_paint
+
+    if tool_mode == 'PAINT_WEIGHT':
+        # row = layout.row(align=True)
+        # row = layout.column(align=True)
+        layout.row().menu("SCWPP_PREFS_MT_weight_paint_presets",
+                text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
+
 def ui_weight_paint_presets(self, context):
     layout = self.layout
 
@@ -138,9 +153,14 @@ def register():
     bpy.utils.register_class(SCWPP_AddPresetWeightPaint)
     bpy.utils.register_class(SCWPP_PREFS_MT_weight_paint_presets)
     bpy.types.USERPREF_PT_edit_weight_paint.prepend(ui_weight_paint_presets)
+    # bpy.types.VIEW3D_HT_tool_header.append(tool_weight_paint_presets)
+    bpy.types.VIEW3D_PT_tools_weightpaint_options.append(tool_weight_paint_presets)
 
 
 def unregister():
     bpy.utils.unregister_class(SCWPP_AddPresetWeightPaint)
     bpy.utils.unregister_class(SCWPP_PREFS_MT_weight_paint_presets)
     bpy.types.USERPREF_PT_edit_weight_paint.remove(ui_weight_paint_presets)
+    # bpy.types.VIEW3D_HT_tool_header.remove(tool_weight_paint_presets)
+    # bpy.types.VIEW3D_HT_tool_header.remove(tool_weight_paint_presets)
+    bpy.types.VIEW3D_PT_tools_weightpaint_options.remove(tool_weight_paint_presets)

@@ -2,7 +2,7 @@
 
 This addon allows the user to save custom Weight Paint presets. Under 'editing' in the preferences users can adjust the default colors. As the default colors arent always clear its a nice feature. By dfault it only stores one preset, this addon makes it very easy to switch between them.
 
-The added presets can then be loaded directly using the preset menu. Saved presets can be accessed directly.
+The added presets can then be loaded directly using the preset menu. Saved presets can be accessed directly. You can also quick switch preset from the brush options menu.
 
 If you want to copy them over, copy the folder '''custom-weight-paint-colors''' to the other systems. This is folder is stored under the following paths:
 
@@ -10,7 +10,7 @@ If you want to copy them over, copy the folder '''custom-weight-paint-colors''' 
 <b>Windows: </b>```C:\Documents and Settings\%username%\Application Data\Blender Foundation\Blender\VERSION\scripts\presets\``` <br>
 <b>Linux: </b>```~/.config/blender/VERSION/scripts/presets/``` <br>
 
-!['Example UI'](https://raw.githubusercontent.com/wiki/schroef/Save-Custom-Weight-Paint-Presets/images/save-weight-paint-presets-v002.jpg?v20210726)
+!['Example UI'](https://raw.githubusercontent.com/wiki/schroef/Save-Custom-Weight-Paint-Presets/images/save-weight-paint-presets-v003.jpg?v20210728)
 
 
 ### System Requirements
