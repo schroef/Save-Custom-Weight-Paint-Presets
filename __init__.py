@@ -22,7 +22,7 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,3),
+    "version": (0,0,4),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
@@ -33,6 +33,7 @@ bl_info = {
 
 
 
+from shutil import Error
 import bpy, os
 from . presets import AddPresetBase
 
@@ -74,6 +75,7 @@ class SCWPP_AddPresetWeightPaint(AddPresetBase, bpy.types.Operator):
     preset_values = [
         "prefs.view.use_weight_color_range",
         "prefs.view.weight_color_range.color_mode",
+        "prefs.view.weight_color_range.interpolation",
     ]
 
     preset_subdir = "custom_weight_paint_colors"
@@ -106,19 +108,39 @@ class SCWPP_AddPresetWeightPaint(AddPresetBase, bpy.types.Operator):
 def install_presets():
     # https://www.geeksforgeeks.org/how-to-move-files-and-directories-in-python/
     import shutil
-  
+    
+
     # Source path
-    source = "presets/custom-weight-paint-presets"
+    cwppFold = "custom_weight_paint_colors"
+    script_file = os.path.realpath(__file__)
+    directory = os.path.dirname(script_file)
+    presetSrc = os.path.join("presets", cwppFold) 
+    source = os.path.join(directory, presetSrc)
     
     # Destination path
-    destination = "presets/"
-    
+    presets = "presets/"
+    destination = bpy.utils.user_resource('SCRIPTS',
+                                                  presets,
+                                                  create=True)
+
     # Move the content of
     # source to destination
-    dest = shutil.move(source, destination, copy_function = shutil.copytree)
-    
-    # print(dest) prints the
-    # Destination of moved directory
+    # print("Dest %s" % os.path.isdir(os.path.join(destination,cwppFold)))
+    destPath = os.path.isdir(os.path.join(destination,cwppFold))
+    try: 
+        # dest = shutil.move(source, destination, copy_function = shutil.copytree(source, destination,dirs_exist_ok=False))
+        # dest = shutil.move(source, destination, copy_function=shutil.copy2) # copy_function = shutil.copytree(source, destination,dirs_exist_ok=False))
+        print(source)
+        print(os.path.isdir(source))
+        if os.path.isdir(source) or destPath:
+            dest = shutil.move(source, destination, copy_function = shutil.copytree)
+            if dest:
+                print("Weight Paint presets installed")
+        else:
+            print("Weight Paint Preset already installed")
+    except Error:
+        print("Issue Save-Custom-WeightPaint_presets \n %s" % Error)
+        
 
 
 def tool_weight_paint_presets(self, context):
@@ -133,7 +155,7 @@ def tool_weight_paint_presets(self, context):
     if tool_mode == 'PAINT_WEIGHT':
         # row = layout.row(align=True)
         # row = layout.column(align=True)
-        layout.row().menu("SCWPP_PREFS_MT_weight_paint_presets",
+        layout.menu("SCWPP_PREFS_MT_weight_paint_presets",
                 text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
 
 def ui_weight_paint_presets(self, context):
@@ -155,6 +177,7 @@ def register():
     bpy.types.USERPREF_PT_edit_weight_paint.prepend(ui_weight_paint_presets)
     # bpy.types.VIEW3D_HT_tool_header.append(tool_weight_paint_presets)
     bpy.types.VIEW3D_PT_tools_weightpaint_options.append(tool_weight_paint_presets)
+    install_presets()
 
 
 def unregister():

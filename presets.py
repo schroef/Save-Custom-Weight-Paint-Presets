@@ -55,13 +55,10 @@ def write_color_stops(prefs):
     code.append("        colRangeElm.new(position=[1,1])")
     code.append("        colRangeElm.new(position=[0,0])")
     code.append("    #First delete all export first and list")
-    code.append("    if totElm > 2:")
-    code.append("        for i in range(1,totElm-1):")
-    code.append("            colRangeElm.remove(colRangeElm[elm])")
-    code.append("        #Reset first and last to 0,0 and 1,1")
-    code.append("        resetLst = [0.0,1.0]")
-    code.append("        for i in range(2):")
-    code.append("            colRangeElm[i].position=resetLst[i]")
+    code.append("    if totElm > 1:")
+    code.append("        colRangeElm.remove(colRangeElm[totElm-1])")
+    code.append("# Reset first to 0,0")
+    code.append("colRangeElm[0].position=float(0.0)")
             
     prefs = bpy.context.preferences
     colRangeElm = prefs.view.weight_color_range.elements

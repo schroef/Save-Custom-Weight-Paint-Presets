@@ -11,13 +11,10 @@ for elm in range(len(colRangeElm)):
         colRangeElm.new(position=[1,1])
         colRangeElm.new(position=[0,0])
     #First delete all export first and list
-    if totElm > 2:
-        for i in range(1,totElm-1):
-            colRangeElm.remove(colRangeElm[elm])
-        #Reset first and last to 0,0 and 1,1
-        resetLst = [0.0,1.0]
-        for i in range(2):
-            colRangeElm[i].position=resetLst[i]
+    if totElm > 1:
+        colRangeElm.remove(colRangeElm[totElm-1])
+#Reset first to 0,0
+colRangeElm[0].position=float(0.0)
 
 posList= [0.0, 0.009999999776482582, 0.5, 0.75, 1.0]
 colList= [(0.31110239028930664, 0.31110239028930664, 0.31110239028930664, 1.0), (0.0, 0.9886642098426819, 1.0, 1.0), (1.0, 0.0, 0.9599730372428894, 1.0), (1.0, 0.9010642766952515, 0.00531865144148469, 1.0), (1.0, 1.0, 1.0, 1.0)]
@@ -35,3 +32,4 @@ for i in range(len(colList)):
 
 prefs.view.use_weight_color_range = True
 prefs.view.weight_color_range.color_mode = 'RGB'
+prefs.view.weight_color_range.interpolation = 'LINEAR'
