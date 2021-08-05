@@ -22,7 +22,7 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,4),
+    "version": (0,0,5),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
@@ -33,8 +33,8 @@ bl_info = {
 
 
 
-from shutil import Error
 import bpy, os
+from shutil import Error
 from . presets import AddPresetBase
 
 # from bl_ui.space_userpref import CenterAlignMixIn
@@ -155,8 +155,14 @@ def tool_weight_paint_presets(self, context):
     if tool_mode == 'PAINT_WEIGHT':
         # row = layout.row(align=True)
         # row = layout.column(align=True)
-        layout.menu("SCWPP_PREFS_MT_weight_paint_presets",
+        col = layout.column()
+        row = col.split(factor=0.33)
+        row.label(text="Weightpaint")
+        sub = row.row()
+        sub.menu("SCWPP_PREFS_MT_weight_paint_presets",
                 text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
+        # layout.menu("SCWPP_PREFS_MT_weight_paint_presets",
+        #         text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
 
 def ui_weight_paint_presets(self, context):
     layout = self.layout
@@ -175,7 +181,7 @@ def register():
     bpy.utils.register_class(SCWPP_AddPresetWeightPaint)
     bpy.utils.register_class(SCWPP_PREFS_MT_weight_paint_presets)
     bpy.types.USERPREF_PT_edit_weight_paint.prepend(ui_weight_paint_presets)
-    # bpy.types.VIEW3D_HT_tool_header.append(tool_weight_paint_presets)
+    bpy.types.VIEW3D_PT_overlay_weight_paint.append(tool_weight_paint_presets)
     bpy.types.VIEW3D_PT_tools_weightpaint_options.append(tool_weight_paint_presets)
     install_presets()
 
@@ -184,6 +190,5 @@ def unregister():
     bpy.utils.unregister_class(SCWPP_AddPresetWeightPaint)
     bpy.utils.unregister_class(SCWPP_PREFS_MT_weight_paint_presets)
     bpy.types.USERPREF_PT_edit_weight_paint.remove(ui_weight_paint_presets)
-    # bpy.types.VIEW3D_HT_tool_header.remove(tool_weight_paint_presets)
-    # bpy.types.VIEW3D_HT_tool_header.remove(tool_weight_paint_presets)
+    bpy.types.VIEW3D_PT_overlay_weight_paint.remove(tool_weight_paint_presets)
     bpy.types.VIEW3D_PT_tools_weightpaint_options.remove(tool_weight_paint_presets)
