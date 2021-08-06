@@ -22,7 +22,7 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,5),
+    "version": (0,0,6),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
@@ -36,8 +36,6 @@ bl_info = {
 import bpy, os
 from shutil import Error
 from . presets import AddPresetBase
-
-# from bl_ui.space_userpref import CenterAlignMixIn
 
 class SCWPP_PREFS_MT_weight_paint_presets(bpy.types.Menu):
 
@@ -143,6 +141,31 @@ def install_presets():
         
 
 
+def brush_weight_paint(self, context):
+    '''
+    bpy.ops.paint.weight_paint_toggle()
+    PAINT_OT_BRUSH_SELECT.weight_tool()
+    '''
+    layout = self.layout
+    tool_mode = context.mode
+    layout.use_property_split = True
+    layout.use_property_decorate = False
+
+    tool_settings = context.tool_settings
+    wpaint = tool_settings.weight_paint
+
+    if tool_mode == 'PAINT_WEIGHT':
+        col = layout.column()
+        sub = col.split()
+
+        sub.separator()
+        sub.operator("paint.brush_select", text="Draw").weight_tool='DRAW'
+        sub.operator("paint.brush_select", text="Blur").weight_tool='BLUR'
+        sub.operator("paint.brush_select", text="Average").weight_tool='AVERAGE'
+        sub.operator("paint.brush_select", text="Smear").weight_tool='Smear'
+        # sub.operator("paint.brush_select", text="Gradient").weight_tool='GRADIENT'
+
+
 def tool_weight_paint_presets(self, context):
     layout = self.layout
     tool_mode = context.mode
@@ -153,42 +176,62 @@ def tool_weight_paint_presets(self, context):
     wpaint = tool_settings.weight_paint
 
     if tool_mode == 'PAINT_WEIGHT':
-        # row = layout.row(align=True)
-        # row = layout.column(align=True)
         col = layout.column()
         row = col.split(factor=0.33)
         row.label(text="Weightpaint")
         sub = row.row()
         sub.menu("SCWPP_PREFS_MT_weight_paint_presets",
                 text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
-        # layout.menu("SCWPP_PREFS_MT_weight_paint_presets",
-        #         text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
+
 
 def ui_weight_paint_presets(self, context):
     layout = self.layout
+    width = context.region.width
+    prefs = context.preferences
+    ui_scale = prefs.system.ui_scale
+    # No horizontal margin if region is rather small.
+    is_wide = width > (350 * ui_scale)
 
-    row = layout.row(align=True)
-    # row = layout.column(align=True)
-    row.menu("SCWPP_PREFS_MT_weight_paint_presets",
-             text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
-    row.operator("preferences.weight_paint_preset_add", text="", icon="ADD")
-    row.operator("preferences.weight_paint_preset_add",
-                 text="", icon="REMOVE").remove_active = True
-    layout.separator()
+    layout.use_property_split = True
+    layout.use_property_decorate = False  # No animation.
+
+    if prefs.view.use_weight_color_range:
+        layout.separator()
+        row = layout.row()
+        if is_wide:
+            row.label()  # Needed so col below is centered.
+
+        col = row.column()
+        col.ui_units_x = 50
+
+        sub = col.row(align=True)
+        # sub.label(text="Presets")
+        sub.menu("SCWPP_PREFS_MT_weight_paint_presets",
+                text=bpy.types.SCWPP_PREFS_MT_weight_paint_presets.bl_label)
+        sub.operator("preferences.weight_paint_preset_add", text="", icon="ADD")
+        sub.operator("preferences.weight_paint_preset_add",
+                    text="", icon="REMOVE").remove_active = True
+        
+        if is_wide:
+            row.label()  # Needed so col above is centered.
 
 
 def register():
+    # bpy.utils.register_class(CenterAlignMixIn)
     bpy.utils.register_class(SCWPP_AddPresetWeightPaint)
     bpy.utils.register_class(SCWPP_PREFS_MT_weight_paint_presets)
-    bpy.types.USERPREF_PT_edit_weight_paint.prepend(ui_weight_paint_presets)
+    bpy.types.USERPREF_PT_edit_weight_paint.append(ui_weight_paint_presets)
+    bpy.types.VIEW3D_PT_paint_weight_context_menu.append(brush_weight_paint)
     bpy.types.VIEW3D_PT_overlay_weight_paint.append(tool_weight_paint_presets)
     bpy.types.VIEW3D_PT_tools_weightpaint_options.append(tool_weight_paint_presets)
     install_presets()
 
 
 def unregister():
+    # bpy.utils.unregister_class(CenterAlignMixIn)
     bpy.utils.unregister_class(SCWPP_AddPresetWeightPaint)
     bpy.utils.unregister_class(SCWPP_PREFS_MT_weight_paint_presets)
     bpy.types.USERPREF_PT_edit_weight_paint.remove(ui_weight_paint_presets)
+    bpy.types.VIEW3D_PT_paint_weight_context_menu.remove(brush_weight_paint)
     bpy.types.VIEW3D_PT_overlay_weight_paint.remove(tool_weight_paint_presets)
     bpy.types.VIEW3D_PT_tools_weightpaint_options.remove(tool_weight_paint_presets)
