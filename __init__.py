@@ -22,7 +22,7 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,6),
+    "version": (0,0,8),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
@@ -115,11 +115,28 @@ def install_presets():
     presetSrc = os.path.join("presets", cwppFold) 
     source = os.path.join(directory, presetSrc)
     
-    # Destination path
-    presets = "presets/"
-    destination = bpy.utils.user_resource('SCRIPTS',
-                                                  presets,
-                                                  create=True)
+
+    # Possible fix for bl3.0
+    # fix for user_resource error > from store_vieews
+    # https://git.blender.org/gitweb/gitweb.cgi/blender-addons.git/blob/HEAD:/space_view3d_stored_views/stored_views_test.py
+            
+    # paths = bpy.utils.preset_paths("stored_views")
+        # if not paths:
+            # stored_views preset folder doesn't exist, so create it
+            # paths = [os.path.join(bpy.utils.user_resource('SCRIPTS'), "presets","stored_views")]
+
+    # other fix from eevee_presets
+    # from pathlib import Path
+    # user_path = Path(bpy.utils.resource_path('USER'))
+    # preset_path = user_path / Path(f"scripts/presets/{PRESET_SUBDIR}")
+
+    # bl3 fix > https://blender.stackexchange.com/a/245232/7631
+    # Destination path 
+    if bpy.app.version[0] >= 3:
+        destination = bpy.utils.user_resource('SCRIPTS',path="presets/",create=True)
+    else:
+        destination = bpy.utils.user_resource('SCRIPTS',presets,create=True)
+
 
     # Move the content of
     # source to destination

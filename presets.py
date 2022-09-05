@@ -171,6 +171,9 @@ class AddPresetBase:
             # directory = os.path.dirname(script_file)
             # target_path = os.path.join(directory,self.preset_subdir)
             # target_path = os.path.join("presets",os.path.join("presets", self.preset_subdir))
+            # fix for user_resource error > from store_vieews
+            # https://git.blender.org/gitweb/gitweb.cgi/blender-addons.git/blob/HEAD:/space_view3d_stored_views/stored_views_test.py
+            
             target_path = bpy.utils.user_resource('SCRIPTS',
                                                   target_path,
                                                   create=True)

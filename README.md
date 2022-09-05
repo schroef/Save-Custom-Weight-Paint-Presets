@@ -10,7 +10,7 @@ If you want to copy them over, copy the folder '''custom-weight-paint-colors''' 
 <b>Windows: </b>```C:\Documents and Settings\%username%\Application Data\Blender Foundation\Blender\VERSION\scripts\presets\``` <br>
 <b>Linux: </b>```~/.config/blender/VERSION/scripts/presets/``` <br>
 
-!['Example UI'](https://raw.githubusercontent.com/wiki/schroef/Save-Custom-Weight-Paint-Presets/images/save-weight-paint-presets-v006.jpg?v20210806)
+!['Example UI'](https://raw.githubusercontent.com/wiki/schroef/Save-Custom-Weight-Paint-Presets/images/save-weight-paint-presets-v008.jpg?v20220905)
 
 
 ### System Requirements
