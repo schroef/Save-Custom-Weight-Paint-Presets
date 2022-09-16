@@ -174,9 +174,12 @@ class AddPresetBase:
             # fix for user_resource error > from store_vieews
             # https://git.blender.org/gitweb/gitweb.cgi/blender-addons.git/blob/HEAD:/space_view3d_stored_views/stored_views_test.py
             
-            target_path = bpy.utils.user_resource('SCRIPTS',
-                                                  target_path,
-                                                  create=True)
+            # bl3 fix > https://blender.stackexchange.com/a/245232/7631
+            # Destination path 
+            if bpy.app.version[0] >= 3:
+                target_path = bpy.utils.user_resource('SCRIPTS',path=target_path,create=True)
+            else:
+                target_path = bpy.utils.user_resource('SCRIPTS',target_path,create=True)
 
             if not target_path:
                 self.report({'WARNING'}, "Failed to create presets path")

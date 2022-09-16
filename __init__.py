@@ -22,11 +22,11 @@ Save your Custom Weight Paint colors as presets, for easy re-use.
 bl_info = {
     "name": "Save Custom Weight Paint Presets",
     "author": "Rombout Versluijs",
-    "version": (0,0,8),
+    "version": (0,0,9),
     "blender": (2, 83, 0),
     "location": "Preferences > Editting > Weight Paint",
     "description": "Save custom color ramps for weight painting",
-    "warning": "https://github.com/schroef/Save-Custom-Weight-Paint-Presets/issues",
+    "tracker_url": "https://github.com/schroef/Save-Custom-Weight-Paint-Presets/issues",
     "doc_url": "https://github.com/schroef/Save-Custom-Weight-Paint-Presets",
     "category": "Preferences",
 }
@@ -135,7 +135,7 @@ def install_presets():
     if bpy.app.version[0] >= 3:
         destination = bpy.utils.user_resource('SCRIPTS',path="presets/",create=True)
     else:
-        destination = bpy.utils.user_resource('SCRIPTS',presets,create=True)
+        destination = bpy.utils.user_resource('SCRIPTS',"presets/",create=True)
 
 
     # Move the content of
